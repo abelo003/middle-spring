@@ -42,6 +42,8 @@ public class PersonalService {
     private PersonalSQLRepository personalRepository;
     @Autowired
     private BitacoraRepository bitacoraRepository;
+    @Autowired
+    private ProducerService producer;
 
     public PersonalService() {
         dateFormat = new SimpleDateFormat("hh:mm:ss");
@@ -71,7 +73,7 @@ public class PersonalService {
             BitacoraModel bitacora2 = new BitacoraModel("Se agrega registro a MySQL", dateFormat.format(new java.util.Date()));
             bitacoraRepository.save(bitacora1);
             bitacoraRepository.save(bitacora2);
-            
+            producer.produceMsg(bitacora1);
             doSuccessResponse(response);
         }
         catch(Exception e){

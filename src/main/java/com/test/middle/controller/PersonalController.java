@@ -6,19 +6,15 @@
 package com.test.middle.controller;
 
 import com.test.middle.dto.request.AddPersonalRequest;
-import com.test.middle.dto.response.AddPersonalResponse;
 import com.test.middle.service.PersonalService;
-import com.test.middle.validation.ValiationRequest;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
