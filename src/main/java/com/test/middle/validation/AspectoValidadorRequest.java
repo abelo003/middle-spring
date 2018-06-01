@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component("protoype")
 public class AspectoValidadorRequest {
+    
+    
 
     private final Logger LOGGER = Logger.getLogger(this.getClass());
     private final String HEADER_DATA_NAME = "extra-data";
@@ -34,8 +36,6 @@ public class AspectoValidadorRequest {
         ResponseEntity responseEntity = null;
         HttpServletRequest servletRequest = null;
         RequestDTO requestDTO = null;
-//        HttpServletRequest servletRequest = (HttpServletRequest) obtenerObjeto(joinPoint.getArgs(), HttpServletRequest);
-//        RequestDTO requestDTO = (RequestDTO) obtenerObjeto(joinPoint.getArgs(), RequestDTO);
         for (Object object : joinPoint.getArgs()) {
             if (object instanceof HttpServletRequest) {
                 servletRequest = (HttpServletRequest) object;
@@ -63,17 +63,6 @@ public class AspectoValidadorRequest {
         }
         return ((ResponseEntity<?>) responseEntity);
     }
-
-//    private Object obtenerObjeto(Object[] arg, Class clazz) {
-//        LOGGER.info("Se busca: " + clazz.getName());
-//        for (Object object : arg) {
-//            LOGGER.info("Se busca -- : " + object.getClass());
-//            if (object instanceof clazz.get) {
-//                return object;
-//            }
-//        }
-//        return null;
-//    }
     
     private String getExtraData(HttpServletRequest servletRequest) {
         Enumeration headerNames = servletRequest.getHeaderNames();
