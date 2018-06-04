@@ -5,6 +5,7 @@
  */
 package com.test.middle.service;
 
+import com.test.middle.validation.ValiationRequest;
 import com.test.middle.dao.BitacoraRepository;
 import com.test.middle.dao.PersonalMongoDao;
 import com.test.middle.dao.PersonalSQLRepository;
@@ -16,7 +17,6 @@ import com.test.middle.dto.response.ListarPersonalResponse;
 import com.test.middle.model.BitacoraModel;
 import com.test.middle.model.PersonalModel;
 import com.test.middle.model.PersonalModelRelational;
-import com.test.middle.validation.ValiationRequest;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;

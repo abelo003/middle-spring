@@ -39,6 +39,8 @@ public class PersonalController {
     @RequestMapping(value = "listar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public ResponseEntity<String> listarPersonal() {
         LOGGER.info("Llega peticion al servicio de listar informacion.");
+        AddPersonalRequest p = new AddPersonalRequest();
+        p.setDescripcion("husaudhasduhasdi");
         return (ResponseEntity<String>) personal.listar();
     }
     

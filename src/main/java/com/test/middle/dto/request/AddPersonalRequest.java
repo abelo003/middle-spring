@@ -5,7 +5,9 @@
  */
 package com.test.middle.dto.request;
 
+import com.test.middle.annotations.NotNullOrEmptyField;
 import com.test.middle.dto.RequestDTO;
+import com.test.middle.annotations.ValidationLength;
 import java.io.IOException;
 import java.util.Date;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -14,10 +16,14 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  * @author acruzb
  */
+
 public class AddPersonalRequest extends RequestDTO{
     
+    @ValidationLength(longitudMaxima = 19)
     private String nombre;
+    @ValidationLength(longitudMaxima = 250)
     private String descripcion;
+    @NotNullOrEmptyField
     private Date fechaAlta;
 
     public AddPersonalRequest() {

@@ -7,6 +7,7 @@ package com.test.middle.validation;
 
 import com.test.middle.dto.RequestDTO;
 import com.test.middle.dto.ResponseDTO;
+import com.test.middle.exceptions.LengthFieldException;
 import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
@@ -24,15 +25,13 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component("protoype")
 public class AspectoValidadorRequest {
-    
-    
 
     private final Logger LOGGER = Logger.getLogger(this.getClass());
     private final String HEADER_DATA_NAME = "extra-data";
 
     @Around("@annotation(ValiationRequest)")
     public ResponseEntity<?> validacionRequestDTO(ProceedingJoinPoint joinPoint) throws Throwable {
-        LOGGER.info("Entra al around.");
+        LOGGER.info("Entra al around para validar el request.");
         ResponseEntity responseEntity = null;
         HttpServletRequest servletRequest = null;
         RequestDTO requestDTO = null;
@@ -43,27 +42,32 @@ public class AspectoValidadorRequest {
                 requestDTO = (RequestDTO) object;
             }
         }
-        
+
         try {
+            validaRequest(requestDTO);//Se validan los campos
             Object[] args = {null, requestDTO};
             String extraData = getExtraData(servletRequest);
             if (null != extraData && null != requestDTO) {
                 requestDTO.setExtraData(extraData);
                 LOGGER.info("Se agrega la infomacion complementaria al request.");
                 responseEntity = (ResponseEntity) joinPoint.proceed(args);
-            }
-            else{
+            } else {
                 throw new Exception("No hay extraData");
             }
         } catch (Exception e) {
             ResponseDTO response = new ResponseDTO();
             response.setCodigoOperacion(-1);
-            response.setDescripcion("Falta informacion.");
+            if(e instanceof LengthFieldException){
+                response.setDescripcion(e.getMessage());
+            }
+            else{
+                response.setDescripcion("Request mal formado.");
+            }
             responseEntity = new ResponseEntity(response, HttpStatus.OK);
         }
         return ((ResponseEntity<?>) responseEntity);
     }
-    
+
     private String getExtraData(HttpServletRequest servletRequest) {
         Enumeration headerNames = servletRequest.getHeaderNames();
         while (headerNames.hasMoreElements()) {
@@ -73,6 +77,15 @@ public class AspectoValidadorRequest {
             }
         }
         return null;
+    }
+
+    private void validaRequest(RequestDTO request) throws LengthFieldException {
+        try {
+            Validator.validateLength(request);
+        } catch (LengthFieldException | IllegalAccessException e) {
+            LOGGER.info("Request mal formado: " + e.getMessage());
+            throw new LengthFieldException(e.getMessage());
+        }
     }
 
 }
